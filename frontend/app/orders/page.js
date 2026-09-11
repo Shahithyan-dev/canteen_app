@@ -4,7 +4,6 @@ import { useRouter, useSearchParams } from 'next/navigation';
 import { useAuth } from '@/context/AuthContext';
 
 import OrderCard from '@/components/OrderCard';
-import { getSocket } from '@/lib/socket';
 import styles from './orders.module.css';
 
 function OrdersContent() {
@@ -41,17 +40,13 @@ function OrdersContent() {
     if (user && token) fetchOrders();
   }, [user, token, fetchOrders]);
 
-  // Real-time status updates via Socket.IO
+  // Polling for order status updates every 10 seconds
   useEffect(() => {
-    if (!user) return;
-    const socket = getSocket();
-    socket.on('order_updated', ({ orderId, status, _id }) => {
-      setOrders((prev) =>
-        prev.map((o) => (o._id === _id || o.orderId === orderId) ? { ...o, status } : o)
-      );
-    });
-    return () => socket.off('order_updated');
-  }, [user]);
+    if (!user || !token) return;
+    const interval = setInterval(() => fetchOrders(), 10000);
+    return () => clearInterval(interval);
+  }, [user, token, fetchOrders]);
+
 
   if (loading || !user) return (
     <div className="loading-screen">
