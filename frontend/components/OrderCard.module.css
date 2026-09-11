@@ -1,0 +1,82 @@
+.card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  transition: var(--transition);
+  animation: slideIn 0.35s ease;
+}
+.card:hover { border-color: var(--border-focus); }
+.pending { border-left: 3px solid var(--accent); }
+.preparing { border-left: 3px solid #3B82F6; }
+.ready { border-left: 3px solid var(--success); }
+.delivered { border-left: 3px solid var(--text-muted); }
+.cancelled { border-left: 3px solid var(--danger); opacity: 0.7; }
+
+/* Header */
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  padding: 1rem 1.25rem;
+  border-bottom: 1px solid var(--border);
+}
+.orderIdWrap { display: flex; flex-direction: column; gap: 0.3rem; }
+.orderIdLabel { font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.08em; color: var(--text-muted); font-weight: 600; }
+.headerRight { display: flex; flex-direction: column; align-items: flex-end; gap: 0.3rem; }
+.time { font-size: 0.72rem; color: var(--text-muted); }
+
+/* Student Info */
+.studentInfo {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem 1.5rem;
+  padding: 0.75rem 1.25rem;
+  background: var(--bg-surface);
+  border-bottom: 1px solid var(--border);
+}
+.studentDetail { display: flex; align-items: center; gap: 0.35rem; font-size: 0.83rem; color: var(--text-secondary); }
+.detailIcon { font-size: 0.8rem; }
+
+/* Items */
+.items { padding: 0.75rem 1.25rem; display: flex; flex-direction: column; gap: 0.4rem; }
+.item { display: flex; align-items: center; gap: 0.5rem; font-size: 0.85rem; }
+.itemName { flex: 1; color: var(--text-primary); font-weight: 500; }
+.itemQty { color: var(--text-muted); font-size: 0.8rem; }
+.itemPrice { font-weight: 700; color: var(--text-secondary); min-width: 50px; text-align: right; }
+
+/* Footer */
+.footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  padding: 0.875rem 1.25rem;
+  border-top: 1px solid var(--border);
+  background: rgba(0,0,0,0.15);
+}
+.total { display: flex; flex-direction: column; gap: 0.1rem; }
+.totalLabel { font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.06em; color: var(--text-muted); font-weight: 600; }
+.totalAmount { font-size: 1.2rem; font-weight: 800; color: var(--primary-light); }
+
+.statusBtns { display: flex; gap: 0.5rem; flex-wrap: wrap; }
+
+/* Progress bar */
+.progressBar {
+  display: flex;
+  gap: 3px;
+  padding: 0 1.25rem 0.875rem;
+}
+.progressStep {
+  flex: 1;
+  height: 3px;
+  border-radius: 2px;
+  background: var(--bg-surface);
+  transition: background 0.4s ease;
+}
+.progressActive { background: linear-gradient(90deg, var(--primary), var(--primary-light)); }
+
+@keyframes slideIn { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: translateY(0); } }

@@ -1,0 +1,44 @@
+.main { padding: 2rem 0 4rem; }
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1.5rem;
+}
+.title { font-size: 1.8rem; font-weight: 800; }
+
+.successBanner {
+  margin-bottom: 1.5rem;
+  align-items: flex-start !important;
+}
+
+.section { margin-bottom: 2.5rem; }
+.sectionTitle {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.9rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--text-muted);
+  margin-bottom: 1rem;
+}
+
+.liveIndicator {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--success);
+  box-shadow: 0 0 6px var(--success);
+  animation: pulse 1.5s ease infinite;
+  flex-shrink: 0;
+}
+@keyframes pulse { 0%, 100% { opacity: 1; transform: scale(1); } 50% { opacity: 0.6; transform: scale(1.2); } }
+
+.ordersList { display: flex; flex-direction: column; gap: 1rem; max-width: 760px; }
+
+@media (max-width: 600px) {
+  .title { font-size: 1.4rem; }
+}
