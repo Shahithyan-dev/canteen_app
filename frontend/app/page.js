@@ -34,7 +34,7 @@ export default function MenuPage() {
     const fetchMenu = async () => {
       try {
         setMenuLoading(true);
-        const url = activeCategory === 'all' ? `${process.env.NEXT_PUBLIC_API_URL}/menu` : `${process.env.NEXT_PUBLIC_API_URL}/menu?category=${activeCategory}`;
+        const url = activeCategory === 'all' ? '/api/menu' : `/api/menu?category=${activeCategory}`;
         const res = await axios.get(url);
         setMenuItems(res.data.items);
       } catch (err) {

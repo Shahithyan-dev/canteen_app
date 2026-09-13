@@ -23,7 +23,7 @@ function OrdersContent() {
 
   const fetchOrders = useCallback(async () => {
     try {
-      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/orders/my`, {
+      const res = await fetch('/api/orders/my', {
         headers: { Authorization: `Bearer ${token}` },
       });
       const data = await res.json();

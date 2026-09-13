@@ -33,7 +33,7 @@ export default function CartPage() {
         totalAmount: totalPrice,
         specialInstructions: instructions,
       };
-      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/orders`, {
+      const res = await fetch('/api/orders', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
         body: JSON.stringify(payload),

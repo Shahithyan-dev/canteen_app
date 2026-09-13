@@ -13,18 +13,19 @@ export default function ManageMenu() {
     name: '',
     description: '',
     price: '',
-    category: 'Snacks',
-    image: '',
-    veg: true,
+    category: 'snacks',
+    imageUrl: '',
     available: true
   });
 
-  const categories = ['Snacks', 'Beverages', 'Lunch', 'Breakfast', 'Desserts'];
+  const categories = ['snacks', 'meals', 'drinks', 'combos'];
 
   const fetchMenu = async () => {
     try {
       setLoading(true);
-      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/menu?category=all`);
+      const res = await fetch('/api/menu', {
+        headers: { Authorization: `Bearer ${token}` }
+      });
       const data = await res.json();
       setItems(data.items || []);
     } catch (err) {
@@ -46,14 +47,14 @@ export default function ManageMenu() {
         description: item.description,
         price: item.price,
         category: item.category,
-        image: item.image || '',
-        veg: item.veg,
+        imageUrl: item.imageUrl || '',
         available: item.available
       });
+
     } else {
       setEditingItem(null);
       setFormData({
-        name: '', description: '', price: '', category: 'Snacks', image: '', veg: true, available: true
+        name: '', description: '', price: '', category: 'snacks', imageUrl: '', available: true
       });
     }
     setModalOpen(true);
@@ -62,10 +63,17 @@ export default function ManageMenu() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const url = editingItem ? `${process.env.NEXT_PUBLIC_API_URL}/menu/${editingItem}` : `${process.env.NEXT_PUBLIC_API_URL}/menu`;
+      const url = editingItem ? `/api/menu/${editingItem}` : '/api/menu';
       const method = editingItem ? 'PUT' : 'POST';
       
-      const payload = { ...formData, price: Number(formData.price) };
+      const payload = {
+        name: formData.name,
+        description: formData.description,
+        price: Number(formData.price),
+        category: formData.category,
+        imageUrl: formData.imageUrl,
+        available: formData.available,
+      };
       
       const res = await fetch(url, {
         method,
@@ -76,7 +84,10 @@ export default function ManageMenu() {
         body: JSON.stringify(payload)
       });
       
-      if (!res.ok) throw new Error('Failed to save item');
+      if (!res.ok) {
+        const data = await res.json();
+        throw new Error(data.message || 'Failed to save item');
+      }
       
       setModalOpen(false);
       fetchMenu();
@@ -88,7 +99,7 @@ export default function ManageMenu() {
   const handleDelete = async (id) => {
     if (!confirm('Are you sure you want to delete this item?')) return;
     try {
-      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/menu/${id}`, {
+      const res = await fetch(`/api/menu/${id}`, {
         method: 'DELETE',
         headers: { Authorization: `Bearer ${token}` }
       });
@@ -101,7 +112,7 @@ export default function ManageMenu() {
 
   const toggleAvailability = async (id, currentStatus) => {
     try {
-      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/menu/${id}/availability`, {
+      const res = await fetch(`/api/menu/${id}`, {
         method: 'PATCH',
         headers: {
           'Content-Type': 'application/json',
@@ -214,14 +225,10 @@ export default function ManageMenu() {
 
               <div className="form-group">
                 <label className="form-label">Image URL (Optional)</label>
-                <input className="form-input" type="url" placeholder="https://..." value={formData.image} onChange={e => setFormData({...formData, image: e.target.value})} />
+                <input className="form-input" type="url" placeholder="https://..." value={formData.imageUrl} onChange={e => setFormData({...formData, imageUrl: e.target.value})} />
               </div>
 
               <div style={{ display: 'flex', gap: '1rem', marginTop: '0.5rem' }}>
-                <label className={styles.checkboxLabel}>
-                  <input type="checkbox" checked={formData.veg} onChange={e => setFormData({...formData, veg: e.target.checked})} />
-                  Vegetarian (Green Dot)
-                </label>
                 <label className={styles.checkboxLabel}>
                   <input type="checkbox" checked={formData.available} onChange={e => setFormData({...formData, available: e.target.checked})} />
                   Available Now
