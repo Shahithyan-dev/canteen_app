@@ -36,8 +36,8 @@ export default function ManageMenu() {
   };
 
   useEffect(() => {
-    fetchMenu();
-  }, []);
+    if (token) fetchMenu();
+  }, [token]);
 
   const handleOpenModal = (item = null) => {
     if (item) {
@@ -154,14 +154,13 @@ export default function ManageMenu() {
               <tr key={item._id} className={!item.available ? styles.unavailableRow : ''}>
                 <td>
                   <div className={styles.itemInfo}>
-                    {item.image ? (
-                      <img src={item.image} alt={item.name} className={styles.itemImg} />
+                    {item.imageUrl ? (
+                      <img src={item.imageUrl} alt={item.name} className={styles.itemImg} />
                     ) : (
                       <div className={styles.placeholderImg}>🍽️</div>
                     )}
                     <div>
                       <div className={styles.itemName}>
-                        <span className={item.veg ? styles.vegIcon : styles.nonVegIcon}>●</span>
                         {item.name}
                       </div>
                       <div className={styles.itemDesc}>{item.description}</div>
