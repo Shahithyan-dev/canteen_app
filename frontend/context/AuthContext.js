@@ -4,7 +4,7 @@ import axios from 'axios';
 
 const AuthContext = createContext(null);
 
-const API = axios.create({ baseURL: process.env.NEXT_PUBLIC_API_URL || '/api' });
+const API = axios.create({ baseURL: '/api' });
 
 export function AuthProvider({ children }) {
   const [user, setUser] = useState(null);
